@@ -1,4 +1,6 @@
 Code for David Haillants uC Clock divider
 https://www.davidhaillant.com/uc-clock-divider/
 
+This project is written for an Arduino Nano Every
+
 Debounce time and clock divisions are adjusted by changing the values in the file Constants.h

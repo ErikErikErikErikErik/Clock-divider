@@ -15,7 +15,7 @@ constexpr uint8_t numberOfButtons{2};
 constexpr uint8_t debounceTime{0};
 
 // Set clock divisions here
-// A value of 1 will simply multiply the incoming signal
+// A value of 1 will relay the incoming clock, like a multiplier module
 constexpr uint16_t clockDivisions[numberOfOutputs]{64, 64, 64, 64, 64, 64, 64, 64};
 
 #endif
