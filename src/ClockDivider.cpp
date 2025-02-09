@@ -1,9 +1,8 @@
-#include "Inputs.h"
+#include "ClockDivider.h"
 
 #include <Arduino.h>
 
-// Input clock duration tracking
-void Inputs::processClock() {
+void ClockDivider::processIO() {
     m_inputClockState = !m_inputClockState;
 
     // All outputs are polled to change state
@@ -12,7 +11,7 @@ void Inputs::processClock() {
     }
 }
 
-void Inputs::processOutput(const uint8_t output) {
+void ClockDivider::processOutput(const uint8_t output) {
     // Outputs that are multiplying the incoming clock signal lasts as long as the duration of the incoming clock signal
     if (m_clockDivisions[output] == 1) {
         digitalWrite(outputPins[output], m_inputClockState);
@@ -36,7 +35,7 @@ void Inputs::processOutput(const uint8_t output) {
     }
 }
 
-void Inputs::processReset() {
+void ClockDivider::resetOutputs() {
     for (uint8_t output = 0; output < numberOfOutputs; ++output) {
         m_outputCounter[output] = -1;
         digitalWrite(outputPins[output], LOW);

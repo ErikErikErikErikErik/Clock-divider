@@ -2,19 +2,18 @@
 
 #include "Constants.h"
 
-class Inputs {
+class ClockDivider {
    public:
-    Inputs(const uint16_t clockDivision1, const uint16_t clockDivision2, const uint16_t clockDivision3, const uint16_t clockDivision4,
-           const uint16_t clockDivision5, const uint16_t clockDivision6, const uint16_t clockDivision7, const uint16_t clockDivision8)
+    ClockDivider(const uint16_t clockDivision1, const uint16_t clockDivision2, const uint16_t clockDivision3, const uint16_t clockDivision4,
+                 const uint16_t clockDivision5, const uint16_t clockDivision6, const uint16_t clockDivision7, const uint16_t clockDivision8)
         : m_clockDivisions{clockDivision1, clockDivision2, clockDivision3, clockDivision4, clockDivision5, clockDivision6, clockDivision7, clockDivision8} {
-        processReset();
+        resetOutputs();
     }
 
-    // Input clock duration tracking
-    void processClock();
+    void processIO();
     void processOutput(const uint8_t output);
 
-    void processReset();
+    void resetOutputs();
 
    private:
     bool m_inputClockState{false};
