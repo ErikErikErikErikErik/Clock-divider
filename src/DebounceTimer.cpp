@@ -8,14 +8,18 @@ uint32_t DebounceTimer::getTimeStamp() {
     return m_timeStamp;
 }
 
-bool DebounceTimer::getTimerState() {
+uint32_t DebounceTimer::getDebounceTime() {
+    return m_debounceTime;
+}
+
+bool DebounceTimer::getDebounceTimerState() {
     return m_timerState;
 }
 
 void DebounceTimer::setTimeStamp() {
-    m_timeStamp = millis();
+    m_timeStamp = micros();
 }
 
-void DebounceTimer::writeTimerState(const bool state) {
+void DebounceTimer::writeDebounceTimerState(const bool state) {
     m_timerState = state;
 }
