@@ -11,13 +11,10 @@ class ClockDivider {
     }
 
     void processIO();
-    void processOutput(const uint8_t output);
-
     void resetOutputs();
 
    private:
     bool m_inputClockState{false};
-
     const uint16_t m_clockDivisions[numberOfOutputs]{};
     int16_t m_outputCounter[numberOfOutputs]{-1, -1, -1, -1, -1, -1, -1, -1};
 };

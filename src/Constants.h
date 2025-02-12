@@ -4,7 +4,6 @@
 #include <Arduino.h>
 
 constexpr uint8_t numberOfOutputs{8};
-constexpr uint8_t numberOfButtons{2};
 
 // Pin numbers
 constexpr uint8_t clock{2};
