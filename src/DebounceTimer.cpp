@@ -4,22 +4,19 @@
 
 #include "Constants.h"
 
-uint32_t DebounceTimer::getTimeStamp() {
-    return m_timeStamp;
-}
-
-uint32_t DebounceTimer::getDebounceTime() {
-    return m_debounceTime;
-}
-
-bool DebounceTimer::getDebounceTimerState() {
+bool DebounceTimer::debounceTimerIsActive() {
     return m_timerState;
 }
 
-void DebounceTimer::setTimeStamp() {
+bool DebounceTimer::debounceTimeHasElapsed() {
+    return micros() - m_timeStamp >= m_debounceTime;
+};
+
+void DebounceTimer::activateTimer() {
     m_timeStamp = micros();
+    m_timerState = true;
 }
 
-void DebounceTimer::writeDebounceTimerState(const bool state) {
-    m_timerState = state;
+void DebounceTimer::deactivateTimer() {
+    m_timerState = false;
 }

@@ -16,7 +16,7 @@ void resetISR() {
 }
 
 void setup() {
-    // Serial.begin(115200);
+    //Serial.begin(115200);
 
     pinMode(clock, INPUT_PULLUP);
     pinMode(reset, INPUT_PULLUP);
@@ -26,19 +26,18 @@ void setup() {
     }
 
     attachInterrupt(digitalPinToInterrupt(clock), clockISR, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(reset), resetISR, FALLING);
+    attachInterrupt(digitalPinToInterrupt(reset), resetISR, CHANGE);
 }
 
 void processInterrupt(ClockDivider& clockDivider, void (ClockDivider::*functionPointer)(), DebounceTimer& timer, volatile bool& interrupt) {
-    if (timer.getDebounceTimerState() == false) {  // When the debounce timer is inactive:
+    if (timer.debounceTimerIsActive() == false) {  
         (clockDivider.*functionPointer)();         // The clock or reset function is called
-        timer.setTimeStamp();                      // The debounce timer activates
-        timer.writeDebounceTimerState(true);       
+        timer.activateTimer();
     }
 
-    else if (micros() - timer.getTimeStamp() >= timer.getDebounceTime()) {  // When the debounce time has elapsed:
-        timer.writeDebounceTimerState(false);                               // The debounce timer is deactivated
-        interrupt = false;                                                  // The interrupt variable is set to FALSE in order to prepare for the next interrupt signal
+    else if (timer.debounceTimeHasElapsed()) {     
+        interrupt = false;                     // The interrupt variable is set to FALSE in order to prepare for the next interrupt signal
+        timer.deactivateTimer();  
     }
 }
 
@@ -49,6 +48,7 @@ void loop() {
     static ClockDivider clockDivider(64, 64, 64, 64, 64, 64, 64, 64);
 
     // Set debounce time (in microseconds) here, in case input readings are noisy
+    // Typically, a debounce time of 20000 - 50000 us should be enough, if at all needed
     static DebounceTimer clockDebounceTimer(0);
     static DebounceTimer resetDebounceTimer(0);
 
@@ -58,7 +58,7 @@ void loop() {
     }
 
     if (resetInterrupt == true) {
-        void (ClockDivider::*resetFunctionPointer)(){&ClockDivider::resetOutputs};
+        void (ClockDivider::*resetFunctionPointer)(){&ClockDivider::processReset};
         processInterrupt(clockDivider, resetFunctionPointer, resetDebounceTimer, resetInterrupt);
     }
 }

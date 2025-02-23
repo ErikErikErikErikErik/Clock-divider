@@ -31,9 +31,15 @@ void ClockDivider::processIO() {
     }
 }
 
-void ClockDivider::resetOutputs() {
-    for (uint8_t output = 0; output < numberOfOutputs; ++output) {
-        m_outputCounter[output] = -1;
-        digitalWrite(outputPins[output], LOW);
+void ClockDivider::processReset() {
+    // For every interrupt change, the reset state is toggled
+    m_resetState = !m_resetState;  
+
+    // Outputs are only reset when the button is pressed, not released
+    if (m_resetState) {
+        for (uint8_t output = 0; output < numberOfOutputs; ++output) {
+            m_outputCounter[output] = -1;
+            digitalWrite(outputPins[output], LOW);
+        }
     }
 }

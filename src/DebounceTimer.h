@@ -11,16 +11,14 @@ class DebounceTimer {
         m_timerState = false;
     };
 
-    uint32_t getTimeStamp();
-    uint32_t getDebounceTime();
-    bool getDebounceTimerState();
-
-    void setTimeStamp();
-    void writeDebounceTimerState(const bool state);
+    bool debounceTimerIsActive();
+    bool debounceTimeHasElapsed();
+    void activateTimer();
+    void deactivateTimer();
 
    private:
     uint32_t m_timeStamp;
-    uint32_t m_debounceTime; 
+    uint32_t m_debounceTime;
     bool m_timerState;
 };
 
