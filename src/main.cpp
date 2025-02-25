@@ -4,8 +4,8 @@
 #include "Constants.h"
 #include "DebounceTimer.h"
 
-volatile bool clockInterrupt{};
-volatile bool resetInterrupt{};
+volatile bool clockInterrupt{false};
+volatile bool resetInterrupt{false};
 
 void clockISR() {
     clockInterrupt = true;
@@ -16,13 +16,15 @@ void resetISR() {
 }
 
 void setup() {
-    //Serial.begin(115200);
+    // Serial.begin(115200);
 
     pinMode(clock, INPUT_PULLUP);
     pinMode(reset, INPUT_PULLUP);
 
+    // Define mode and state for output pins
     for (uint8_t outputPin : outputPins) {
         pinMode(outputPin, OUTPUT);
+        digitalWrite(outputPin, LOW);
     }
 
     attachInterrupt(digitalPinToInterrupt(clock), clockISR, CHANGE);
@@ -30,14 +32,14 @@ void setup() {
 }
 
 void processInterrupt(ClockDivider& clockDivider, void (ClockDivider::*functionPointer)(), DebounceTimer& timer, volatile bool& interrupt) {
-    if (timer.debounceTimerIsActive() == false) {  
-        (clockDivider.*functionPointer)();         // The clock or reset function is called
+    if (timer.debounceTimerIsActive() == false) {
+        (clockDivider.*functionPointer)();  // The clock or reset function is called
         timer.activateTimer();
     }
 
-    else if (timer.debounceTimeHasElapsed()) {     
-        interrupt = false;                     // The interrupt variable is set to FALSE in order to prepare for the next interrupt signal
-        timer.deactivateTimer();  
+    else if (timer.debounceTimeHasElapsed()) {
+        interrupt = false;
+        timer.deactivateTimer();
     }
 }
 

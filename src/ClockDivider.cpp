@@ -33,7 +33,7 @@ void ClockDivider::processIO() {
 
 void ClockDivider::processReset() {
     // For every interrupt change, the reset state is toggled
-    m_resetState = !m_resetState;  
+    m_resetState = !m_resetState;
 
     // Outputs are only reset when the button is pressed, not released
     if (m_resetState) {
