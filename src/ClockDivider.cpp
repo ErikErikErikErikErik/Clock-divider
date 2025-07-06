@@ -7,7 +7,7 @@ void ClockDivider::processIO() {
     m_inputClockState = !m_inputClockState;
 
     for (uint8_t output = 0; output < numberOfOutputs; ++output) {
-        // Outputs that are multiplying the incoming clock signal lasts as long as the duration of the incoming clock signal
+        // Outputs that are duplicating the incoming clock signal follows the same HIGH/LOW cycle
         if (m_clockDivisions[output] == 1) {
             digitalWrite(outputPins[output], m_inputClockState);
         }

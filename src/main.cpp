@@ -46,7 +46,7 @@ void processInterrupt(ClockDivider& clockDivider, void (ClockDivider::*functionP
 void loop() {
     // CONFIGURE THE MODULE HERE
     // Set clock division values here for output 1 - 8
-    // A value of 1 multiplies the incoming clock signal
+    // A value of 1 duplicates the incoming clock signal
     static ClockDivider clockDivider(64, 64, 64, 64, 64, 64, 64, 64);
 
     // Set debounce time (in microseconds) here, in case input readings are noisy
